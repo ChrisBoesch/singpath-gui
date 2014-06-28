@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ChrisBoesch/genshyft.png?branch=master)](https://travis-ci.org/ChrisBoesch/genshyft)
+[![Build Status](https://travis-ci.org/ChrisBoesch/singpath-gui.png?branch=gh-pages)](https://travis-ci.org/ChrisBoesch/singpath-gui)
 
 ## singpath-gui - Angularjs GUI for SingPath.com
   
