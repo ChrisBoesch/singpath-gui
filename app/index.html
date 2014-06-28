@@ -246,8 +246,8 @@
     if(document.location.port && document.location.port!= 80){
         document.write('<script src="../test/scenario.js"><'+'/script>');
     }
-    // Mock API on Github gh-pages hosting
-    else if (document.location.hostname == "chrisboesch.github.io"){
+    // Mock API whenever hosted from github.io (gh-pages hosting)
+    else if (document.location.hostname.indexOf(".github.io") > -1){
         console.log("hostname "+document.location.hostname);
         console.log("Mocking API when hosted from Github.io");
         document.write('<script src="../test/scenario.js"><'+'/script>');
