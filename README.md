@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/ChrisBoesch/genshyft.png?branch=master)](https://travis-ci.org/ChrisBoesch/genshyft)
 
-## Genshyft - Angularjs GUI for SingPath.com
+## singpath-gui - Angularjs GUI for SingPath.com
   
 SingPath.com is the most fun way to practice software. 
 
@@ -13,9 +13,9 @@ Create a Node box
 From the command line at the bottom, clone YOUR fork from Github and enter these other lines at the command line as well: 
 
 ```
-$ git clone https://github.com/ChrisBoesch/genshyft.git
+$ git clone https://github.com/ChrisBoesch/singpath-gui.git
 
-$ cd genshyft
+$ cd singpath
 
 $ npm install
 
@@ -41,7 +41,6 @@ automatically after editing a javascript or style file.
 
 You can run individual test suites by running the commands:
 `grunt test:unit`
-`grunt test:midway`
 `grunt test:e2e`
 
 Or everything in order:
@@ -53,5 +52,4 @@ for the specific test suite that is active at the time.
 
 You can watch only watch one test suite a time.
 `grunt autotest:unit`
-`grunt autotest:midway`
 `grunt autotest:e2e`
