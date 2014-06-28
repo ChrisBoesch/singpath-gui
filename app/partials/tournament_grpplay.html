@@ -1,0 +1,211 @@
+<meta charset="utf-8">  
+        <title>Singpath - Tournament Play Page</title>
+        
+</style>
+        <link rel="shortcut icon" href="assets/ico/favicon.ico"> 
+        <style type='text/css'>
+         .ace_editor  {
+            height : 280px;
+          }
+</style>
+</br>
+<div ng-controller="TournamentGameController" class="container">
+    <div>  
+        <div class="row-fluid">
+            <div class="span8 bootCamp" id="heading">Current Tournament Questions</div>
+            <div class="span4 bootCamp" id="heading">Round Details</div>
+        </div>
+        <div class="row-fluid">        
+            <div class="span8 well">            
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div style="text-align: left;">
+                            <font ng-hide="remaining_problems.length == 0">                               
+                                <b>Name:</b> <span ng-bind="game.problems.problems[current_problem_index].name"></span>
+
+                                <br>
+                                <b>Description:</b> 
+                            	<br><span ng-bind="game.problems.problems[current_problem_index].description"></span>
+                                </br> 
+                            </font>
+                            <font ng-show="remaining_problems.length == 0">
+                                <h3 style="text-align: center">Congratulations!</h3>
+                                <h4 style="text-align: center"> You have finished all questions in this round.</h4>
+                            </font>
+                            
+                            </br>
+                            <div class="span12" style="text-align: center">   
+                            <button class="btn btn-primary" ng-hide="remaining_problems.length == 0" ng-click="skip_problem()" align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Skip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            <button class="btn btn-inverse" ng-click="round_end_tournament_lobby()" ng-show="remaining_problems.length == 0" align="right"><i class="icon-home icon-white"></i> Tournament Lobby </button>
+                            <button class="btn btn-inverse" ng-click="round_end_ranking(game.heatID)" ng-show="remaining_problems.length == 0" align="right">Go To Ranking <i class="icon-chevron-right icon-white"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="span4 well">
+                <div class="row-fluid">
+                    <div class="span12">                  
+                        <b>Round progress: </b> <span ng-bind="game.numSolvedProblems"></span><b> / </b><span ng-bind="game.numProblems"></span> 
+                        </br><b>Mentor :</b> <b><font color='blue'><span ng-bind="mentor_name"></span></font></b> <input type="checkbox" ng-show="mentor_id!=null && mentor_hasArrived==false" ng-click='mentor_arrived(game.playerID, game.heatID)'><font ng-show="mentor_id!=null && mentor_hasArrived==false">Has Mentor Arrived?</font>
+                        </br><b ng-show="remaining_problems.length == 0" >Assigned To :</b> <font color='red'><b><span ng-bind="mentee_name"></span></b></font>
+                        </br>
+                    </div>
+                </div>  
+            </div>
+        </div>
+       
+        <div class="row-fluid">
+            <div class="span6 well">
+                <!-- Tab for Run-->
+                <div id="tab11"class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li class="tabspacing active">
+                          <a href="tournament-grpplay#t3" data-toggle="tab">Solution</a>
+                        </li>
+                        <!--For HTML problems-->
+                       <!--  <button class="btn btn-primary pull-right" 
+                         ng-click="check_solution_for_game_html();" ng-show="codeType == 'html'">&nbsp;&nbsp;Run&nbsp;&nbsp;</button> -->
+                        <!--For Non-HTML problems-->
+                        <button class="btn btn-primary pull-right" ng-click="check_solution_for_game();">&nbsp;&nbsp;Run&nbsp;&nbsp;</button>
+                    </ul>
+                    <div  class="tab-content">
+                        <div class="tab-pane fade in active" id="t3" style="height:300px;">
+                            <div>
+                                <section>
+                                    <div id="editorPractice" ui-ace="{mode: 'java'}" ng-model="solution1"><span ng-bind="game.problems.problems[current_problem_index].skeleton"></div>
+                                </section>
+                            </div>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Usual Langauage Path Problems-->
+            <div class="span6 well" ng-hide="codeType == 'html'">
+                <!-- Tab for Sample Answer and Outcome-->
+                <div id="tab21"class="tabbable">
+                    <ul class="nav nav-tabs">
+                        <li id = "ta11" class="tabspacing active">
+                          <a href="tournament-grpplay/#t11" data-toggle="tab">Sample Answer</a>
+                        </li>
+                        <li id = "ta21" class="tabspacing">
+                          <a href="tournament-grpplay/#t21" data-toggle="tab">Outcome</a>
+                        </li>  
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="t11" style="height:317px;">
+                            <div>Examples: 
+                                <pre style = "color:blue;"><span ng-bind="game.problems.problems[current_problem_index].examples"></span></pre>
+                            </div>
+                        </div>
+
+                        <div ng-hide="solution_check_result.error" class="tab-pane " id="t21" style="height:320px;">
+                            <table border=1 bgcolor=#FFFFFF width=100%>
+                                <tr>
+                                    <th height="50">Called</th>
+                                    <th height="50">Expected</th>
+                                    <th height="50">Recieved</th>
+                                    <th height="50">Correct</th>
+                                </tr>
+                                <tr ng-repeat="line in solution_check_result.results">
+                                    <td height="40">{{line.call}}</td>
+                                    <td height="40">{{line.expected}}</td>
+                                    <td height="40">{{line.received}}</td>
+                                    <td height="40" ng-show="line.status" bgcolor=#00FF00>{{line.status}}</td>
+                                    <td height="40"ng-show="!line.status" bgcolor=#FF0000>{{line.status}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" ng-hide="!solution_check_result.errors">Errors: <pre style = "color:blue;"><span ng-bind="solution_check_result.errors"></span></pre></td>
+                                </tr>
+                            </table><br>
+                                  Private Test Results: {{solution_check_result.other_tests_result}}
+                        </div>
+
+                        <div ng-show="solution_check_result.error">
+                            {{solution_check_result.error}}
+                        </div>
+                  </div>
+                </div>
+            </div>
+
+
+            <!--HTML Path Problems-->
+            <div class="span6 well" ng-show="codeType == 'html'">
+                        <!-- Tab for Sample Answer and Outcome-->
+                        <div id="tab21" class="tabbable">
+                            <ul class="nav nav-tabs">
+                                <li id = "ta111" class="tabspacing active">
+                                    <a href="tournament-grpplay/#t111" data-toggle="tab">Your Code</a>
+                                </li>
+                                <li id = "ta211" class="tabspacing">
+                                    <a href="tournament-grpplay/#t211" data-toggle="tab">Tests</a>
+                                </li>   
+                                <li id = "ta311" class="tabspacing">
+                                    <a href="tournament-grpplay/#t311" data-toggle="tab">Outcome</a>
+                                </li>  
+                            </ul>
+                            <div class="tab-content">
+                              
+                              <!--render iframe-->
+                              <div class="tab-pane active" id="t111"style="height:317px;">
+                                
+                                <input type="submit" value="Render HTML" ng-click="render_html()"><br>
+                                
+                                <iframe id="anIframe" height="320" width="100%" src=""></iframe><br>
+                                <!-- Example (Put this in a 3rd tab)<br>
+                                <iframe id="exampleIframe" src=""></iframe><br> -->
+
+                              </div>
+
+                              <!--Test iframe-->
+                              <div  class="tab-pane" id="t211" style="height:317px;">
+                                
+                                <input type="submit" value="Run E2E Tests" ng-click="run_e2e_tests()">
+                                <iframe id="testIframe" height="320" width="100%" src=""></iframe>
+                              </div>
+
+                              <!--This is the outcome tab-->
+                              <div  class="tab-pane" id="t311" style="height:317px;" ng-hide="solution_check_result.error">
+                                <table border=1 bgcolor=#FFFFFF width=100%>
+                                    <tr>
+                                        <th height="50">Called</th>
+                                        <th height="50">Expected</th>
+                                        <th height="50">Recieved</th>
+                                        <th height="50">Correct</th>
+                                    </tr>
+                                    <tr ng-repeat="line in solution_check_result.results">
+                                        <td height="40">{{line.call}}</td>
+                                        <td height="40">{{line.expected}}</td>
+                                        <td height="40">{{line.received}}</td>
+                                        <td height="40" ng-show="line.status" bgcolor=#00FF00>{{line.status}}</td>
+                                        <td height="40"ng-show="!line.status" bgcolor=#FF0000>{{line.status}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" ng-hide="!solution_check_result.errors">Errors: <pre style = "color:blue;"><span ng-bind="solution_check_result.errors"></span></pre></td>
+                                    </tr>
+                                </table><br>
+                                    Private Test Results: {{solution_check_result.other_tests_result}}
+                              </div>
+
+                          </div>
+                        </div>
+                    </div>
+
+        </div>  
+
+        <div class="modal fade" id="finish_all_info" style="display:none">
+            <div class="modal-body">
+              <center><h3><font>Congratulations!</font><h3><center>
+              <h4><font>You have finished all questions in this round.</font></h4>
+              <h4>Now go help <font color="red"> {{mentee_name}} </font> out!</h4>  
+            </div>
+            <div class="modal-footer">
+                <div style="text-align: center">
+                    <button class="btn btn-inverse" ng-click="round_end_tournament_lobby()" ng-show="remaining_problems.length == 0" align="right"><i class="icon-home icon-white"></i> Tournament Lobby</button>
+                    <button type="button" ng-click="round_end_ranking(game.heatID)" data-dismiss="modal" class="btn btn-inverse">Go To Ranking <i class="icon-chevron-right icon-white"></i></button>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>

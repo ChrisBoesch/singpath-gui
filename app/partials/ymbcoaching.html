@@ -1,0 +1,286 @@
+<p><p>
+<style>
+/* Theme for box heading */
+.bootCamp{
+    color: #ffffff;
+    font-size: 16px;
+    border-bottom-color: #6b808d;
+    border-radius: 6px 6px 6px 6px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
+    margin-top: 4px;
+    margin-bottom: 8px;
+    padding: 8px 8px;
+}
+.bootCampSmall{
+    color: #ffffff;
+    font-size: 12px;
+    border-bottom-color: #6b808d;
+    border-radius: 6px 6px 6px 6px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.7);
+    margin-top: 4px;
+    margin-bottom: 8px;
+    padding: 5px 5px;
+}
+
+
+.radio{
+  text-align: center;	
+}
+
+H5 {FONT-SIZE: 11pt;}
+
+#gradient1{  
+  #gradient > .vertical(@black, @white);  
+}
+
+#radButton{
+  display:inline;
+}
+
+#pathImg label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+#paths {
+  display: inline-block;
+  cursor: pointer;
+}
+
+#pathImg{
+  width:100px;
+  height:100px;
+}
+
+#smallPathImg{
+  width:60px;
+  height:60px;
+}
+
+.selected {
+  background-color: #002369;
+}
+
+#paths input {
+  display: inline-block;
+  cursor: pointer;
+}
+
+input:hover{
+  background-color: #002369;
+}
+
+#paths input img {
+  padding: 3px;
+}
+
+<!--small-->
+
+#smallDifficulty{
+  height: 30px;
+  width: 100px;
+  border-radius: 3px;
+}
+
+#largeDifficulty{
+  height: 40px;
+  width: 170px;
+  border-radius: 3px;
+}
+
+li{ list-style:none; }
+
+.tabspacing{
+  width:50%;
+  text-align:center;
+}
+
+#navlist li
+{
+display: inline;
+list-style-type: none;
+padding-right: 20px;
+}
+.divfloatleft
+{
+float:left;
+}
+
+/* to change tab hover and active color*/
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover {
+  color: black;
+  cursor: default;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-bottom-color: transparent;
+}
+.nav-tabs > li > a:hover {
+	background-color: #DCD9CD;
+	border-color: #eeeeee #eeeeee #dddddd;
+}
+</style>
+
+
+
+
+		
+		<div class ="container" ng-controller="yMBCoachingController" ng-init="get_player_progress();update_path_details();list();getCoaches();getCurrentMastery();">
+		
+		
+	<!--	<div ng-show="mastery.coach==null">
+		 <h3>More Features coming up soon!</h3>
+		<IMG ng-src ="img/purposedrivenPlaceholder/wait.png" width =50%>
+		</div> !-->
+		
+		
+		
+		<div ng-show = "mastercache">
+		<h4 class="well well-small bootCamp" align="center" id="well-c" >1. Player Progress</h4>	
+			<span class="span11">
+		<table>
+			<tr class = 'span11' >
+	
+					<td class="span3"> <IMG class ="Span3" ng-src=" {{currentCoach.image}}" width ='200'> </td> 
+					 <td class="span3">
+
+						
+						<div id = "audioDiv">	 
+							<audio src="audio/{{currentCoach.name}}/greeting.mp3" autoplay controls></audio> <br> <br>
+						</div>
+					 
+						  <button id="resume" class="btn btn-info" ng-click = "resumePracticeGame(currentPathId,currentPathName,5,currentCoach.coachID)">Start Practising </button> <br>  <br>
+					 <button id="reset" class="btn btn-danger" ng-click ="resetMentor()">  New Coach </button> 
+					 <button id="reset" class="btn btn-danger" ng-click ="resetPath()">  New Path </button> 
+					<br> <br> Current Coach :  {{currentCoach.name}}
+					<br> Current Path :{{currentPathName}}
+					 </td>
+					 <td class = "span4">  
+						{{currentCoach.audiotext.greeting}}
+
+					</td> 
+					
+			</tr>
+		</table>
+		<br>	
+		* Please refresh the page if you have problems.
+		<br>	
+			
+			
+		</div> 
+		</span>
+	
+
+		
+	<div ng-show ="masterselect">
+						
+	
+			<span class="span11">
+			<center><table border = '0' class = "table table-bordered">
+			<td ng-repeat ="coaches in allCoachesData.coachesData" align ='center'>
+			
+			 
+					
+				<IMG ng-src=" {{coaches.image}}" width ='150'> <br>
+			
+			<br>
+			<button id="selectCoach" class="btn btn-warning" ng-click ="filterGetCoaches(coaches.name)"> 	
+			Coach Me!
+			</button> <br>
+			
+			<!-- <input type ="radio" name = "coachSelect" ng-model ="$parent.currentCoach" value ="{{coaches.name}}">
+			<br> !-->
+		
+			
+			<b><br>{{coaches.name}}</b> <br> 
+<p>			{{coaches.description}} </p> <br>
+			<br>
+			</td>
+			</table>
+			</span> <br>
+	</center>
+ </div> 
+		     
+
+<div class="row-fluid">
+				<div class="span12">
+
+	<div class="modal fade" id="levelBlock" style="display:none">    		
+		<div class="modal-body" style="color:black">
+			Please clear previous level problems to unlock this level!
+		</div>
+		<div class="modal-footer">
+			<a href="#" data-dismiss="modal"><button name="gotit" class="btn btn-primary" ng-click='hideModal()'>Back</button></a>
+		</div>
+	</div>
+</div>
+</div>
+
+
+<script>
+	$("#myCarousel")
+		.appendTo("#des");
+
+	$("#myCarouselSmall")
+		.appendTo("#des");
+</script>
+
+
+<!--  This portion deals with responsive. !-->
+
+
+
+
+
+ <div ng-show ="masterpath"> <!-- to check existence of isTrue !-->
+ <h4 class="well well-small bootCamp" align="center" id="well-c" >2. Select Your path!</h4>
+	<div class ="container">
+	
+		
+
+
+			  <div width="400px"style="width:98.7%; height:30px">
+				<table class="table table-hovered">
+					<tr>
+						<th class="name">Path Name</th>
+						<th class="myprogress">Progress</th>
+						<th class="continue">Take the leap</th>
+					</tr>                                   
+				</table> 
+				</div>
+				<div style="height:270px;overflow-y:auto;overflow-x:hidden" ng-model="filter">
+					<table class="table table-hover">
+						<tr ng-repeat="path in player_progress.paths| filter:path.name.substring(0,8).trim() != 'Beginner' " ng-init="count(0);">	
+						
+							<div ng-show = "path.name.substring(0,8).trim() != 'Beginner'">
+							<td class="name">{{path.name}}
+							
+
+							
+							
+							</td>
+							
+							
+							
+							<td class="myprogress">{{path.solvedProblems}}/{{path.problemsInPath}}
+								<div class="progress progress-success">
+								
+									<div class="bar" style="width:{{count = (path.solvedProblems/path.problemsInPath)*100 |number:0}}%"></div>
+								</div>
+							</td>
+							<td class="continue">
+								<button id="resume" class="btn btn-warning" ng-click = "resetLanguage(path.id,path.name)">Change Path </button>
+								
+							</td>  
+							
+
+							</div>
+						</tr>									 
+					</table>				
+				</div>
+
+		
+
+	</div>
+	</div>
+	</div>

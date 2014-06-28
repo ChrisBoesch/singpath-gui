@@ -1,0 +1,170 @@
+<style>
+	.modal-body{position: relative;
+	    overflow-y: auto;
+	    max-height: 16000px;
+	    padding: 15px;
+	}
+
+    .modal-large {
+	    width: 50%; /* responsive width */
+	    margin-left:-25%;/*  width/2) */ 
+	}
+</style>
+</br>
+<div ng-controller="EventController" ng-init="loading(); isNumberInteger(9); populatePaths();" class="container" id="eventCreate"style="position:relative;" >
+	<button class="btn btn-primary" ng-click="returnToPreviousPage()"><i class="icon-arrow-left icon-white"></i> Return to Last Visited Page</button>
+	<br>
+	<br>
+	<div class="row-fluid">
+		<div class="span12 well well-small" >
+			<div class="span12 bootCamp" id="heading">
+				<h2>Create Event</h2>
+			</div>
+			<br>			
+			</br>		
+	<div class="row-fluid">
+		<br>
+		<div class="alert alert-info">
+			<h4>Welcome to Create Event!</h4>
+			Edit any field or just click 'Create' to accept the defaults to Create an Event immediately!<br><br>
+			P.S. You can edit the fields anytime under 'Edit Events'!
+		</div>
+	</div>
+		<h4>Event Details</h4>
+		<div class="row-fluid">
+		<div class="span12 well well-small">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Event Title :
+					</div>
+					<div class="span9">
+						 <input class="span8" type="text" required ng-model="defaultName" ></input>
+					</div>
+				</div>	
+			</div>
+
+			<!--Description input field-->
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Event Description :
+					</div>
+					<div class="span9">
+						 <textarea class="span8" rows="3" required ng-model="defaultDescription"  >
+						</textarea>
+					</div>
+				</div>	
+			</div>
+
+			<!--Venue input field-->
+			
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Event Venue :
+					</div>
+					<div class="span9">
+						 <input class="span8" type="text" required ng-model="defaultVenue"></input>
+					</div>
+				</div>	
+			</div>
+
+			<!--Cutoff number input field-->
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Cutoff :
+					</div>
+					<div class="span7">
+						 <input class="span6" type="number" required ng-model="defaultCutoff"></input>
+					</div>
+				</div>	
+			</div>
+
+			<!--School Type selection-->
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						School Type :
+					</div>
+					<div class="span9">
+						 <div class="span8">
+						 	
+						 	<select class="span6" ng-model="defaultSchoolTypes" ng-change="selectSchoolType(defaultSchoolTypes)" ng-options="school.name for school in allSchoolTypes">
+								<option style="display:none" value="">University</option>
+							</select>  
+						</div>
+					</div>
+				</div>	
+			</div>
+
+			<!--School Sub Type selection-->
+			<div class="row-fluid" ng-show="needSubType">
+				<div class="span12">
+					<div class="span2">
+						School Sub Type :
+					</div>
+					<div class="span9">
+						 <div class="span8">
+						 	
+						 	<select class="span6" ng-model="defaultSubtypes" ng-change="selectSubType(defaultSubTypes)" ng-options="school.name for school in allSubTypes">
+								<option style="display:none" value="">Poly</option>
+							</select>  
+						</div>
+					</div>
+				</div>	
+			</div>
+			
+			<!--Path selection-->
+			<!--
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Path Type :
+					</div>
+					<div class="span9">
+						 <div class="span8">
+						 	
+						 	<select class="span6" ng-model="selectedPath" ng-change="selectPath(selectedPath)" ng-options="game.id as game.name for game in gamePaths">
+								<option style="display:none" value="">Python</option>
+							</select>  
+						</div>
+					</div>
+				</div>	
+			</div>
+			-->
+
+			<!--Quest selection-->
+			<!--
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Quest :
+					</div>
+					<div class="span9">
+						 <div class="span8">
+
+							<select class="span6" ng-model="selectedQuest" ng-change="selectQuest(selectedQuest)" ng-options="quest.id as quest.name for quest in questResponse | filter:{published:true}">
+								<option style="display:none" value="">The Spy Who Coded</option>
+							</select> 							
+						</div>
+					</div>
+				</div>	
+			</div>
+		-->
+			
+			<div class="row-fluid">
+				<div class="span12">
+					<center>
+						<button class="btn btn-primary" type="button" ng-click="create_new_event(defaultName,defaultDescription,defaultVenue,defaultCutoff,defaultSubtypes,defaultSchoolTypes)" ><i class="icon-check icon-white"></i> Create</button> 
+					</center>
+				</div>	
+			</div>
+
+			</div>
+		</div>
+		</div>	
+		</br>
+		</br>
+	</div>

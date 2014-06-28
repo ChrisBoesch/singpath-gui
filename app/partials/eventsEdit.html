@@ -1,0 +1,188 @@
+<style>
+	.modal-body{position: relative;
+	    overflow-y: auto;
+	    max-height: 16000px;
+	    padding: 15px;
+	}
+
+    .modal-large {
+	    width: 50%; /* responsive width */
+	    margin-left:-25%;/*  width/2) */ 
+	}
+</style>
+</br>
+<div ng-controller="EventTableController" ng-init="get_participants(); get_eventID(); get_currentPlayerRanking(); get_currentUrl(); populatePaths(); " class="container" id="eventsEdit" style="position:relative;" >
+	<button class="btn btn-primary" ng-click="returnToPreviousPage()"><i class="icon-arrow-left icon-white"></i> Return to Last Visited Page</button>
+	<br>
+	<br>
+	<div class="row-fluid">
+		<div class="span12 well well-small" >
+			<div class="span12 bootCamp" id="heading">
+				<h2>Edit Event</h2>
+			</div>
+			<br>			
+			</br>		
+	<div class="row-fluid">
+		<br>
+		<div class="alert alert-warning">
+			<h4>Welcome to Edit Event!</h4>
+			To begin, enter your Event details below. Leaving fields empty will keep the original variables as it is. Once you are ready, hit submit to edit your event!
+		</div>
+	</div>
+		<h4>Event Details</h4>
+		<div class="row-fluid">
+		<div class="span12 well well-small">
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Event Title:
+					</div>
+					<div class="span9">
+						 <input class="span8" type="text"  ng-model="eventsData.name" ></input>
+						 
+					</div>
+				</div>	
+			</div>
+
+			<!--Description input field-->
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Event Description:
+					</div>
+					<div class="span9">
+						 <textarea class="span8" rows="3" ng-model="eventsData.description"  >
+						</textarea>
+					</div>
+				</div>	
+			</div>
+
+			<!--Venue input field-->
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Event Venue:
+					</div>
+					<div class="span7">
+
+						 <input class="span6" type="text" ng-model="eventsData.venue"  ></input>
+						 <font ng-if="eventsData.venue==null">Please set your event venue!</font>
+						 
+					</div>
+				</div>	
+			</div>
+
+			<!--Cutoff number input field-->
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Cutoff:
+					</div>
+					<div class="span7">
+						 <input class="span6" type="number" ng-model="eventsData.cutoff"  ></input>
+						 
+					</div>
+				</div>	
+			</div>
+
+			<!--School Type selection-->
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						School Type:
+					</div>
+					<div class="span9">
+						 <div class="span8">
+						 	
+						 	<select class="span6" ng-model="schoolTypes" ng-change="selectSchoolType(schoolTypes)" ng-options="school.name for school in allSchoolTypes">
+								<option style="display:none" value="">Choose School Type</option>
+							</select>
+							Existing School Type: 
+							<span ng-show='eventsData.schooltypes.length!=0'>{{eventsData.schooltypes[0]}}</span>
+							<span ng-hide='eventsData.schooltypes.length!=0'>None saved yet</span>  
+						</div>
+					</div>
+				</div>	
+			</div>
+
+			<!--School sub Type selection-->
+			<div class="row-fluid" ng-show="schoolTypes.name==='Tertiary'||eventsData.schooltypes[0]==='Tertiary'">
+				<div class="span12">
+					<div class="span2">
+						Sub Type:
+					</div>
+					<div class="span9">
+						 <div class="span8">
+						 	
+						 	<select class="span6" ng-model="subTypes" ng-change="selectSubType(subTypes)" ng-options="school.name for school in allSubTypes">
+								<option style="display:none" value="">Choose Sub Type</option>
+							</select>
+							Existing Sub Type: 
+							<span ng-show='eventsData.subtypes.length!=0'>{{eventsData.subtypes[0]}}</span>
+							<span ng-hide='eventsData.subtypes.length!=0'>None saved yet</span>  
+						</div>
+					</div>
+				</div>	
+			</div>
+			
+			<!--Event Programming Language selection-->
+			<!--
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Path Type:
+					</div>
+					<div class="span9">
+						 <div class="span8">
+						 	
+						 	<select class="span6" ng-model="selectedPath" ng-change="selectPath(selectedPath)" ng-options="game.id as game.name for game in gamePaths">
+								<option style="display:none" value="">Choose Path Type</option>
+							</select>  
+							Existing Path: 
+							<span ng-show='eventsData.path!=null'>{{eventsData.path}}</span>
+							<span ng-hide='eventsData.path!=null'>None saved yet</span>
+						</div>
+					</div>
+				</div>	
+			</div>
+		-->
+
+			<!--Quest selection-->
+			<!--
+			<div class="row-fluid">
+				<div class="span12">
+					<div class="span2">
+						Quest:
+					</div>
+					<div class="span9">
+						 <div class="span8" ng-init="populatePaths()">
+
+							<select class="span6" ng-model="selectedQuest" ng-change="selectQuest(selectedQuest)" ng-options="quest.id as quest.name for quest in questResponse | filter:{published:true}">
+								<option style="display:none" value="">Choose Quest</option>
+							</select> 							
+						Existing Story:
+						<span ng-show='eventsData.quest!=null'>
+							{{eventsData.quest}}
+						</span>
+						<span ng-hide='eventsData.quest!=null'>None saved yet</span>
+
+						</div>
+					</div>
+				</div>	
+			</div>
+		-->
+
+			<div class="row-fluid">
+				<div class="span12">
+					<center>
+						<button class="btn btn-primary" type="button" ng-click="edit_event(eventsData.id,eventsData.name,eventsData.description,eventsData.venue,eventsData.cutoff, schoolTypes, subTypes, selectedPath, selectedQuest)" ><i class="icon-check icon-white"></i> Edit</button> 
+					</center>
+				</div>	
+			</div>
+
+			</div>
+		</div>
+		</div>	
+		</br>
+		</br>
+	</div>

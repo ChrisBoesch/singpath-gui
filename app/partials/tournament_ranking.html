@@ -1,0 +1,120 @@
+<style>
+   
+    .table td, .table th {
+        border: none;
+        font-size: 14px;
+    }
+
+    .table tbody tr:hover td {
+        background-color: #eeeeee;
+    }
+    
+    .table tbody tr:hover th{
+    	background-color: #292929;
+    }
+
+    .table th{
+    	background-color: #292929;
+    	color: #DEDEDE;
+    	vertical-align: middle;
+    }
+    
+    .tabspacing{
+        width:25%;
+	}
+
+    
+    .tab-content {
+      clear: none;
+      margin-bottom:0px;
+    }
+
+    tbody{
+        overflow:auto;  
+    }
+
+    .overspill{
+    	overflow: hidden;
+		text-overflow: ellipsis;
+		-o-text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 100%;
+    }
+	
+	
+	<!--All Rankings : Rankings-->
+	th.Rank_Ranking, td.Rank_Ranking						{width:5%;}
+	th.Rank_RankInGrp, td.Rank_RankInGrp					{width:10%;}
+    th.Rank_Grp, td.Rank_Grp								{width:10%;}
+    th.Rank_PlayerName										{width:20%;}
+    td.Rank_PlayerName										{width:20%;text-align: left;}
+    th.Rank_Qns, td.Rank_Qns								{width:5%;}
+    th.Rank_Progress, td.Rank_Progress						{width:10%;}
+    th.Rank_Mentoring, td.Rank_Mentoring					{width:10%;}
+    th.Rank_MentoredBy, td.Rank_MentoredBy					{width:10%;}
+
+    img.grav {width:15%;float:left;}
+		
+
+</style>
+</br>
+<center><h2>Round Ranking</h2></center>
+
+<div class="container"  style="position:relative;" ng-controller="GenshyftTournamentController" ng-init="check_location()">
+
+	<div class="row-fluid">
+		<div class="container">
+			<h4 class="well well-small bootCamp" align="center" id="well-c" ng-controller="CountdownController" ng-init="start_timer(countval)">Ranking refreshes every 10 seconds</h4>
+		</div>		
+	</div>
+    
+    <div class="row-fluid">
+        <div class="span12" >
+            
+			<div class="tabbable well" align="center">				
+				<div class="tab-content" id="top-content">				
+					<div class="tab-pane active" align="left" id="Ranking">
+						<div style="width:99.8%; height:{{window_Height_challenge}}px;overflow-y:auto;overflow-x:hidden">						
+
+						<div>
+								<button type="button" class="btn btn-inverse" id="tourn_lobby" ng-click="tournament_bay()"><i class="icon-home icon-white"></i> Back To Tournament Lobby</button>
+						<center><h4>{{tournament.roundDescription}} </h4><center>
+						<h5 ng-hide="true">{{tournament.heatDescription}}</h5>
+							<table class="table table-hover">	
+								<tr>
+									<th class="Rank_Ranking">Overall Ranking</th>
+									<th class="Rank_PlayerName">Player Name</th>
+									<th class="Rank_RankInGrp" ng-show="tournament.isGroup == true">Rank in Group</th>
+									<th class="Rank_Grp" ng-show="tournament.isGroup == true">Group Number</th>								
+									
+									<th class="Rank_Qns"ng-repeat="i in my_range(tournament.ranking[0].total_problems)" width="15">{{i}}</th>
+									<th class="Rank_Progress">Last Solved</th>
+									<th class="Rank_Mentoring">Mentoring</th>
+									<th class="Rank_MentoredBy">Mentored By</th>
+								</tr>  							
+								<tr ng-repeat="player in playerRanks">
+									<td class="Rank_Ranking">{{$index+1}}</td>
+									<td class="Rank_PlayerName overspill"><img class="grav"ng-src="{{player.gravatar}}"> &nbsp; &nbsp;{{player.nickname}}</td>
+									<td class="Rank_RankInGrp" ng-show="tournament.isGroup == true">{{player.rankingInGrp}}<font ng-show="player.rankingInGrp==1">st</font><font ng-show="player.rankingInGrp==2">nd</font><font ng-show="player.rankingInGrp==3">rd</font><font ng-show="player.rankingInGrp>=4">th</font></td>
+									<td class="Rank_Grp" ng-show="tournament.isGroup == true">{{player.group}}</td>
+													
+									<!-- Need to add in the questions associated to each round and the tick logo -->
+									<td class="Rank_Qns" ng-repeat="i in my_range(player.solved_problems)"><img src="http://www.singpath.com/ender/static/badges/ticks_on.png"></td>
+            						<td class="Rank_Qns" ng-repeat="i in my_range(player.total_problems - player.solved_problems)"><img src="http://www.singpath.com/ender/static/badges/ticks_off.png"></td>
+									<!-- -->
+									<td class="Rank_Progress">{{player.finished.split(":")[1]}} min {{player.finished.split(":")[2].split(".")[0]}} sec</td>
+                  <td class="Rank_Mentoring"><span ng-show="player.menteeID != null && urlEdit">(<a ng-click="remove_mentor(heatID,player.playerid)">R</a>) </span>{{player.mentee}}</td>
+                  <td class="Rank_MentoredBy"><p ng-hide="player.mentorID == null"><font ng-show="player.mentorHasArrived == false"><span ng-show="urlEdit">(<a ng-click="accept_mentor(heatID, player.playerid)">A</a>) </span>Waiting for </font>{{player.mentor}}</p></td>
+								</tr>           
+							</table>
+						
+						</div>
+						</div>
+						</div>
+						
+					</div>
+					
+
+        </div>
+    </div>
+</div>

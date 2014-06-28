@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - '0.10'
+before_script:
+  - 'npm install -g grunt-cli'
+  - 'grunt install'
+
+after_success:
+- curl http://django-box-19263.apse1.nitrousbox.com:8887/

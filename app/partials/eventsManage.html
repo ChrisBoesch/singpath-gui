@@ -1,0 +1,347 @@
+<style>
+   	.modal-large {
+	    width: 60%; /* responsive width */
+	    margin-left:-30%;/*  width/2) */ 
+	}
+
+	.modal-xlarge {
+	    width: 60%; /* responsive width */
+	    margin-left:-30%;/*  width/2) */ 
+	}
+
+
+    .table tbody tr:hover td,
+    .table tbody tr:hover th {
+        background-color: #eeeeee;
+    }
+    
+    .tabspacing{
+        width:25%;
+	}
+
+    
+    .tab-content {
+      clear: none;
+      margin-bottom:0px;
+    }
+
+    li.bulletless {
+    	list-style-type: none;
+    }
+
+    tbody{
+        overflow:auto;  
+    }
+
+    .bttn:hover{
+    	color: #ffffff;
+	  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	  background-color: #de1206;
+	  background-image: -moz-linear-gradient(top, #f21406, #c01005);
+	  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f21406), to(#c01005));
+	  background-image: -webkit-linear-gradient(top, #f21406, #c01005);
+	  background-image: -o-linear-gradient(top, #f21406, #c01005);
+	  background-image: linear-gradient(to bottom, #f21406, #c01005);
+	  background-repeat: repeat-x;
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff21406', endColorstr='#ffc01005', GradientType=0);
+	  border-color: #c01005 #c01005 #760a03;
+	  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	  *background-color: #c01005;
+	  /* Darken IE7 buttons by default so they stand out more given they won't have borders */
+
+	  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    }
+
+
+    .ft:hover:after{
+    	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  		font-size: 18px;
+  		color: #ffffff;
+		text-shadow: 0 1px 0 #ffffff;
+		text-decoration: none;
+		text-align: center;
+		font-weight: bold;
+    	content:"×";
+    }
+
+
+    .bttn:hover span{
+    	display:none;
+    }
+
+    .bttn:hover:before{
+    	text-align: center;
+    	content: "Remove  ";
+    }
+
+	<!--All Rankings : Rankings-->
+	th.Group_Member, td.Group_Member{
+		width:10%;
+	}
+	
+</style>
+</br>
+<div class="container" style="position:relative" ng-controller="EventController" ng-init="get_eventID(); populatePaths(); fetch_event(); get_eventID()">
+	<button class="btn btn-primary" ng-click="returnToPreviousPage()"><i class="icon-arrow-left icon-white"></i> Return to Last Visited Page</button>
+	</br>
+	</br>
+	<div class="row-fluid">
+		<div class="span12 bootCamp" id="heading">
+			<h2>Manage your Events</h2>
+		</div>
+		
+		<div class="row-fluid">
+			<div class="span12 well well-small" >
+				<center>
+					<button class="btn btn-primary" data-toggle="modal" onClick="parent.location='#/eventsCreate'">
+						<i class="icon-plus-sign icon-white"></i> Create New Event
+					</button>
+
+
+				</center>
+				<div class="row-fluid" ng-repeat="event in events" ng-hide="event.archived || player.player_id!=event.editor">
+					<span ng-hide="eventID!=event.id">
+						<div class="span6">
+							
+				              <h4>{{event.name | limitTo:60}}</h4><br>
+				              {{event.description}}<br>
+				              <span ng-hide="event.path==null">
+				              Tournament Types: {{event.path}}
+
+				              <br>
+				          </span>
+				              Cutoff Ranking: {{event.cutoff}}
+				              <br>
+				              Ranking Status: 
+				              <strong>
+				              <span ng-if="event.rankinglocked">Locked </span>
+				              <span ng-if="!event.rankinglocked">
+				              Not Locked </span>
+				          </strong>
+				              
+				        </div>
+				        <div class="span6">
+				            <center>
+				              	<br>
+				              	<br>
+				              	<br>
+				              	<br>
+				              	<button class="btn btn-primary btn-success" data-toggle="modal" ng-click="reload_eventsManage(event.id)">
+				            	<i class="icon-envelope icon-white"></i> Send Invite
+				            	</button>
+								<button class="btn btn-primary btn-warning" data-toggle="modal" ng-click="go_to_eventsEdit(event.id)">
+								<i class="icon-pencil icon-white"></i> Edit Event
+								</button>
+								<button ng-disabled="event.rankinglocked" class="btn btn-primary btn-danger" data-toggle="modal" ng-click="lock_ranking(event.id)">
+								<i class="icon-lock icon-white"></i> Lock Ranking
+								</button>
+				            	<button class="btn btn-primary btn-inverse" data-toggle="modal" ng-click="delete_event(event.id)">
+				            	<i class="icon-trash icon-white"></i> Delete Event
+				            	</button>
+				            
+				          </center>
+				        </div>
+			        </span>
+			        <span ng-if="noEventID" ng-hide="event.archived || player.player_id!=event.editor">
+			        	<div class="span6">
+							
+				              <h4>{{event.name | limitTo:60}}</h4><br>
+				              {{event.description}}
+				              <br>
+				              <span ng-hide="event.path==null">
+				              Tournament Path Type: 
+				              {{getPathNameFromPathID(event.path)}}
+				              <br>
+				          </span>
+				              Cutoff Ranking: {{event.cutoff}}
+				              <br>
+				              Ranking Status: 
+				              <strong>
+				              <span ng-if="event.rankinglocked">Locked </span>
+				              <span ng-if="!event.rankinglocked">
+				              Not Locked </span>
+				          </strong>
+				              
+				        </div>
+				        <div class="span6">
+				            <center>
+				              	<br>
+				              	<br>
+				              	<br>
+				              	<br>
+				              	<button class="btn btn-primary btn-success" data-toggle="modal" ng-click="reload_eventsManage(event.id)">
+				            	<i class="icon-envelope icon-white"></i> Send Invite
+				            	</button>
+								<button class="btn btn-primary btn-warning" data-toggle="modal" ng-click="go_to_eventsEdit(event.id)">
+								<i class="icon-pencil icon-white"></i> Edit Event
+								</button>
+								<button ng-disabled="event.rankinglocked" class="btn btn-primary btn-danger" data-toggle="modal" ng-click="lock_ranking(event.id)">
+								<i class="icon-lock icon-white"></i> Lock Ranking
+								</button>
+				            	<button class="btn btn-primary btn-inverse" data-toggle="modal" ng-click="delete_event(event.id)">
+				            	<i class="icon-trash icon-white"></i> Delete Event
+				            	</button>
+				         </div>
+				          </center>
+				    </span>
+				</div>
+			</div>	
+		</div>	
+	</div>
+
+	
+</div>
+
+<!--bottom half-->
+<!--When user clicks on the send invite button for the different events, the table below should change dynamically -->
+<div ng-hide="noEventID" class="container" style="position:relative" ng-controller="EventTableController" ng-init="get_participants(); get_eventID(); get_currentUrl(); initializeArray();">
+	<div class="row-fluid">
+		<div class="span12 bootCamp" id="title">
+			<h4>Send Invite</h4>
+		</div>
+		
+		
+		<div class="row-fluid">
+			<div class="span12 well well-small" >
+				<center><h4>
+					<font ng-show="eventsData.archived"> Event is over</font>
+					<font ng-show="player.player_id!=eventsData.editor"> This is not your event! </font></h4></center>
+	
+	<div class="span6">             
+		<center><h4>
+			<font ng-hide="eventsData.archived || player.player_id!=eventsData.editor">{{eventsData.name | limitTo:60}}</font>
+		
+			</h4>
+		</center>
+		<table class="table table-striped table-hover" ng-hide="eventsData.archived || player.player_id!=eventsData.editor">
+			<thead>
+				<tr>
+					<td class = "span1"><strong>Rank</td>
+					<td class = "span2"><strong>Player Name</td>
+					<td class = "span1"><strong>{{eventsData.path}} Problems Solved</td>
+					<td class = "span2"><strong>School Name</td>
+					<td class = "span1"><strong>Mail</td>
+			        <td class = "span1"><strong>Invited</td>
+			        <td class = "span1"><strong>Accepted</td>
+			        <td class = "span1"><strong>Uninvite</td>
+				</tr>
+			</thead>
+			<tbody>
+				<center>
+					<span ng-if="noEventID">
+							<h4>
+								Please select an event to send invite(s) to!
+							</h4>
+					</span>
+				</center>
+		<!--{{player.player_id}}{{eventsData.editor}}-->
+			<!--show all, not just top 50. To show top 50 only, ng-hide="$index>=50"-->
+			<div ng-hide="eventsData.name.length > 0">
+        		Loading latest ranking.. This may take a few seconds..
+      		</div>
+			<tr ng-repeat="participant in eventsData.ranking" ng-hide="eventsData.archived || player.player_id!=eventsData.editor">
+				<td class = "span1">{{$index+1}}</td>
+				<td class = "span2">{{participant.nickname | limitTo:20}}</td>
+				<td class = "span1">
+					<span ng-if="participant.solvedproblems<0">No School</span>
+					<span ng-if="participant.solvedproblems>=0">{{participant.solvedproblems}}</span>
+				</td>
+				<td class = "span2">{{participant.schoolname}}</td>
+				<td class = "span1">
+					<input
+					    type="checkbox"
+					    name="selectedParticipants[]"
+					    value="{{participant.playerid}}"
+					    ng-checked="checkAll || (cutoffList && participant.rank<(eventsData.cutoff+1))"
+					    ng-click="addRemoveRSVPList(participant.playerid)"
+  					>
+				</td>
+		        <td class = "span1">
+		        	<font ng-if="participant.sentrsvp">Yes</font>
+		        	<font ng-if="!participant.sentrsvp">No</font>
+
+		        </td>
+		        <td class = "span1">{{participant.rsvp}}</td>
+		        <td class = "span1">
+		          <button ng-show="participant.sentrsvp && participant.rsvp=='None'" class="btn btn-primary btn-danger" ng-click= "uninvite(eventsData.id,participant.playerid)">Uninvite</button></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+<div class = "span5" ng-hide="eventsData.archived || player.player_id!=eventsData.editor">
+	<form class="form-horizontal">
+		<div class="control-group">
+			
+			<div class="controls">
+				<br><br><br><br>
+					<div class="alert alert-warning" ng-show="rsvpResponse">
+						{{rsvpResult.to}}
+						{{rsvpResult.from}}
+						{{rsvpResult.cc}}
+						{{rsvpResult.bcc}}
+						{{rsvpResult.subject}}
+						{{rsvpResult.messageBody}}
+					</div>
+					<strong>Please select ONE only.<br></strong>
+					Select 'All' to send invites to all participants OR<br>
+					Select 'Cutoff' to send invites to participants above cutoff
+					<br><br>All
+					<input 
+						type="checkbox" 
+						ng-model="checkAll"
+						ng-checked=false
+						ng-disabled="secondButton"
+						ng-click="addAllToRSVPList()">
+					Cutoff
+					<input 
+						type="checkbox" 
+						ng-model="cutoffList"
+						ng-checked="checkall"
+						ng-disabled="firstButton"
+						ng-click="addSelectedFewToRSVPList()"><br/>
+					<br>
+					<!-- Uncomment when api ready to take in new boolean variables
+					CC yourself
+					<input 
+						type="checkbox"
+						ng-click="addToCCList('eventCreator')"><br/>
+					<br>
+					
+					CC other registrants
+					<input 
+						type="checkbox"
+						ng-click="addToCCList('eventMiscCC')">
+					<br>
+					(Keep me posted registrants and watchers)
+					<br><br>
+				-->
+				
+				Message Title
+				<br>
+				<input class="span8" type="text" required ng-model="messageTitle" placeholder="Enter message title here" ></input>
+				<br><br><br>
+				Message Body
+				<textarea class="span10" rows="6" ng-model="messageDescription" placeholder = "Message here will be included in the RSVP mail" >
+				</textarea>
+				<br>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+
+				<label class="checkbox">
+					<input type="checkbox" id="includeRSVP" ng-model="includeRSVP"value="true"> Include RSVP
+				</label>
+				<button type="submit" class="btn btn-primary btn-success" data-toggle="modal" data-target="#successModal" ng-click="send_rsvp(messageDescription, messageTitle, includeRSVP)">
+			    <i class="icon-envelope icon-white"></i> Send RSVP</button>
+			</div>
+		</div>
+	</form>
+	
+			            								
+			         </div>
+				</div>
+			</div>	
+		</div>	
+	</div>	
+</div>
