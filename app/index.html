@@ -243,12 +243,13 @@
 
 <!-- For testing -->
 <script type="text/javascript">
-    console.log("hostname "+document.location.hostname);
     if(document.location.port && document.location.port!= 80){
         document.write('<script src="../test/scenario.js"><'+'/script>');
     }
     // Mock API on Github gh-pages hosting
-    else if (document.location.hostname == "http://chrisboesch.github.io"){
+    else if (document.location.hostname == "chrisboesch.github.io"){
+        console.log("hostname "+document.location.hostname);
+        console.log("Mocking API when hosted from Github.io");
         document.write('<script src="../test/scenario.js"><'+'/script>');
     }
 </script>
