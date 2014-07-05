@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Project Specific Settings
 #/bower_components/
 
@@ -9,13 +10,18 @@
 #/app/font/
 #/coverage/
 
+=======
+>>>>>>> adff72c5d148c7111c377ade44801f99e98dd2ae
 # Logs
 logs
 *.log
 
+<<<<<<< HEAD
 .DS_Store
 .DS_Store?
 
+=======
+>>>>>>> adff72c5d148c7111c377ade44801f99e98dd2ae
 # Runtime data
 pids
 *.pid
@@ -37,6 +43,7 @@ build/Release
 # Deployed apps should consider commenting this line out:
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
+<<<<<<< HEAD
 
 # Project Specific Settings
 #/bower_components/
@@ -50,3 +57,5 @@ node_modules
 #/coverage/
 
 
+=======
+>>>>>>> adff72c5d148c7111c377ade44801f99e98dd2ae

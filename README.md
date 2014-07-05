@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [![Build Status](https://travis-ci.org/ChrisBoesch/singpath-gui.png?branch=gh-pages)](https://travis-ci.org/ChrisBoesch/singpath-gui)
 
 ## singpath-gui - Angularjs GUI for SingPath.com
@@ -53,3 +54,9 @@ for the specific test suite that is active at the time.
 You can watch only watch one test suite a time.
 `grunt autotest:unit`
 `grunt autotest:e2e`
+=======
+singpath-gui
+============
+
+The Angularjs-based GUI for SingPath.com
+>>>>>>> adff72c5d148c7111c377ade44801f99e98dd2ae

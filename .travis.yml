@@ -5,9 +5,18 @@ branches:
 language: node_js
 node_js:
   - '0.10'
+<<<<<<< HEAD
 before_script:
   - 'npm install -g grunt-cli'
   - 'grunt install'
 
 after_success:
 - curl http://django-box-19263.apse1.nitrousbox.com:8887/
+=======
+
+before_script:
+  - npm install
+
+script:
+  - grunt test
+>>>>>>> adff72c5d148c7111c377ade44801f99e98dd2ae
