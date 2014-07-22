@@ -6746,10 +6746,27 @@ a.badge:focus {
   .hidden-phone {
     display: none !important;
   }
+ .modal-footer{padding:0px!important;}
+  .btn-primary:hover {
+    background: none repeat scroll 0 0 #000066 !important;
+    color: #ffffff;
+}
+.modal-body{padding:0px !important}
 }
 
 .visible-print {
   display: none !important;
+}
+@media (max-width: 600px){  .modal-footer{padding:0px!important;}
+  .btn-primary:hover {
+    background: none repeat scroll 0 0 #000066 !important;
+    color: #ffffff;
+}
+.modal.fade {
+   
+    top: -140px !important;
+}
+.modal-body{padding:0px !important}
 }
 
 @media print {
